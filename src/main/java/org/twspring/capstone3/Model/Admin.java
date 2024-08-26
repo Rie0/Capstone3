@@ -1,14 +1,15 @@
 package org.twspring.capstone3.Model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -21,9 +22,9 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(columnDefinition = "VARCHAR(35) NOT NULL")
-    @NotEmpty(message = "username cannot be empty")
-    @Size(min=4,max = 25, message = "Username must have between 4 to 25 characters")
+    @NotEmpty(message = "Username cannot be empty")
+    @Size(min=4,max = 25, message = "Username must have between 4 to 35 characters")
+    @Column(columnDefinition = "VARCHAR(35) NOT NULL UNIQUE")
     private String username;
 
 
@@ -38,14 +39,12 @@ public class Admin {
     @Column(columnDefinition = "VARCHAR(35) NOT NULL UNIQUE")
     private String email;
 
-    @NotNull(message = "Created date cannot be null")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate createdAt = LocalDate.now();
+    @CreationTimestamp
+    @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime createdAt;
 
-    @NotNull(message = "Updated date cannot be null")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate updatedAt = LocalDate.now();
+    @UpdateTimestamp
+    @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp")
+    private LocalDateTime updatedAt;
 
 }

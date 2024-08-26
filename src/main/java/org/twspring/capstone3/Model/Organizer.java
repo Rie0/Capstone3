@@ -7,8 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -37,15 +41,13 @@ public class Organizer {
     @Column(columnDefinition = "VARCHAR(35) NOT NULL UNIQUE")
     private String email;
 
-    @NotNull(message = "Created date cannot be null")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate createdAt = LocalDate.now();
+    @CreationTimestamp
+    @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime createdAt;
 
-    @NotNull(message = "Updated date cannot be null")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate updatedAt = LocalDate.now();
+    @UpdateTimestamp
+    @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp")
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     private Status status= Status.PENDING;
@@ -55,6 +57,10 @@ public class Organizer {
         PENDING,
         REJECTED
     }
+
+    //relationships
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer")
+    private Set<Exhibition> exhibitions;
 }
 
 

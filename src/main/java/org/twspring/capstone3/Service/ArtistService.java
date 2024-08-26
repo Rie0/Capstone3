@@ -24,8 +24,8 @@ public class ArtistService {
         artist1.setEmail(artist.getEmail());
         artist1.setPassword(artist.getPassword());
         artist1.setUsername(artist.getUsername());
-        artist1.setCreatedAt(artist.getCreatedAt());
-        artist1.setUpdatedAt(artist.getUpdatedAt());
+//        artist1.setCreatedAt(artist.getCreatedAt());
+//        artist1.setUpdatedAt(artist.getUpdatedAt());
         artistRepository.save(artist1);
     }
     public void deleteArtist(Integer id) {

@@ -1,14 +1,16 @@
 package org.twspring.capstone3.Model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -23,13 +25,13 @@ public class ArtEnthusiast {
 
     @Column(columnDefinition = "VARCHAR(35) NOT NULL")
     @NotEmpty(message = "username cannot be empty")
-    @Size(min=4,max = 25, message = "Username must have between 4 to 25 characters")
+    @Size(min=4,max = 25, message = "Username must have between 4 to 35 characters")
     private String username;
 
     @NotEmpty(message = "Password cannot be empty")
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).{8,}$",
             message = "Password must be strong (at least eight characters: one uppercase letter, one lowercase letter, one number, and one special character)")
-    @Column(columnDefinition = "VARCHAR(35) NOT NULL")
+    @Column(columnDefinition = "VARCHAR(40) NOT NULL")
     private String password;
 
     @NotBlank(message = "Email cannot be blank")
@@ -37,14 +39,26 @@ public class ArtEnthusiast {
     @Column(columnDefinition = "VARCHAR(35) NOT NULL UNIQUE")
     private String email;
 
-    @NotNull(message = "Created date cannot be null")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate createdAt = LocalDate.now();
+    @CreationTimestamp
+    @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime createdAt;
 
-    @NotNull(message = "Updated date cannot be null")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate updatedAt = LocalDate.now();
+    @UpdateTimestamp
+    @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp")
+    private LocalDateTime updatedAt;
+
+    //relations
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artEnthusiast")
+    private Set<ExhibitionTicket> exhibitionTickets;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artEnthusiast")
+    private Set<OrderArt> orderArts;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artEnthusiast")
+    private Set<Bill> bills;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artEnthusiast")
+    private Set<CommissionRequest> commissionRequests;
 
 }

@@ -14,11 +14,13 @@ public class ArtPieceForSaleService {
     private final ArtPieceForSaleRepository artPieceForSaleRepository;
 
     public List<ArtPieceForSale> getAllArtPieceForSale(){
+
         return artPieceForSaleRepository.findAll();
     }
 
     public void addArtPieceForSale(ArtPieceForSale artPieceForSale){
-      artPieceForSaleRepository.save(artPieceForSale);
+
+        artPieceForSaleRepository.save(artPieceForSale);
     }
 
     public void updateArtPieceForSale(ArtPieceForSale artPieceForSale , Integer id){

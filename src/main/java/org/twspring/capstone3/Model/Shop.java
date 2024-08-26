@@ -2,6 +2,7 @@ package org.twspring.capstone3.Model;
 
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Setter
 @Getter
@@ -26,8 +28,9 @@ public class Shop {
     private Integer id;
 
     @NotEmpty
-    @Pattern(regexp = "^(true|false)$", message = "Is commission open must be either('true' or 'false')")
-    @Column(columnDefinition = "boolean check(isCommissionOpen = true or isCommissionOpen = false)")
+    //@Pattern(regexp = "^(true|false)$", message = "Is commission open must be either('true' or 'false')")
+    //@Column(columnDefinition = "boolean check(isCommissionOpen = true or isCommissionOpen = false)")
+    @Column(columnDefinition = "boolean not null")
     private boolean isCommissionOpen = false;
 
     @NotNull(message = "Minimal Price must be not null")
@@ -36,6 +39,13 @@ public class Shop {
 
 
     @CreationTimestamp
-    @Column(columnDefinition = "timestamp not null default current_timestamp", nullable = false, updatable = false)
+    @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
+
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
+    private Set<Product> products;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
+    private Set<CommissionRequest> commissionRequests;
 }

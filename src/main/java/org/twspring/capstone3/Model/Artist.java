@@ -4,9 +4,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.twspring.capstone3.Model.ArtWork;
+import org.twspring.capstone3.Model.ArtistProfile;
 
 import java.security.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +28,7 @@ public class Artist {
     private Integer id;
     @Column(columnDefinition = "VARCHAR(35) NOT NULL")
     @NotEmpty(message = "username cannot be empty")
-    @Size(min=4,max = 25, message = "Username must have between 4 to 25 characters")
+    @Size(min=4,max = 25, message = "Username must have between 4 to 35 characters")
     private String username;
 
     @NotEmpty(message = "Password cannot be empty")
@@ -35,20 +42,22 @@ public class Artist {
     @Column(columnDefinition = "VARCHAR(35) NOT NULL UNIQUE")
     private String email;
 
-    @NotNull(message = "Created date cannot be null")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate createdAt = LocalDate.now();
+    @CreationTimestamp
+    @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime createdAt;
 
-    @NotNull(message = "Updated date cannot be null")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate updatedAt = LocalDate.now();
+    @UpdateTimestamp
+    @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp")
+    private LocalDateTime updatedAt;
 
 
-
-@OneToOne(cascade = CascadeType.ALL,mappedBy = "artist")
-@PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "artist")
+    @PrimaryKeyJoinColumn
     private ArtistProfile artistProfile;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "artist")
+    private Set<ArtWork> artWorks;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artist")
+    private Set<CommissionRequest> commissionRequests;
 }
