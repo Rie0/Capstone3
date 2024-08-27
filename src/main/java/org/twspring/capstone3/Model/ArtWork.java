@@ -40,6 +40,8 @@ public class ArtWork {
     @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp")
     private LocalDateTime updatedAt;
 
+    //add likes
+
     @ManyToOne
     //@JoinColumn(name = "art_work_id",referencedColumnName = "id")
     @JsonIgnore

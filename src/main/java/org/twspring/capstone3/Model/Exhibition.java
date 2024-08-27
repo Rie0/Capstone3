@@ -3,10 +3,7 @@ package org.twspring.capstone3.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +27,7 @@ public class Exhibition {
     private Integer id;
 
 
-    @Column(columnDefinition = "VARCHAR(35) NOT NULL")
+    @Column(columnDefinition = "VARCHAR(35) NOT NULL UNIQUE")
     @NotEmpty(message = "title cannot be empty")
     @Size(min=4,max = 25, message = "title must have between 4 to 25 characters")
     private String title;
@@ -53,12 +50,21 @@ public class Exhibition {
 
     @Column(columnDefinition = "BOOLEAN NOT NULL")
     @NotNull(message = "is available cannot be null")
-    private boolean isAvailable;
+    private boolean isAvailableForRent; //Artist Can rent
+
+    @Column(columnDefinition = "BOOLEAN NOT NULL")
+    @NotNull(message = "is available cannot be null")
+    private boolean isOpen; //AE can buy tickets
 
     @Column(columnDefinition = "INT NOT NULL")
     @NotNull(message = "capacity cannot be null")
     @Positive(message = "capacity cannot be a zero or a negative number")
-    private Integer capacity;
+    private Integer maxCapacity;
+
+    @Column(columnDefinition = "INT NOT NULL")
+    @NotNull(message = "capacity cannot be null")
+    @PositiveOrZero(message = "capacity cannot be a negative number")
+    private Integer currentCapacity = 0;
 
     @NotNull(message = "Date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -76,9 +82,8 @@ public class Exhibition {
     //relations
 
     //current artist taking the exibition
-    @ManyToOne
-    @JsonIgnore
-    private Artist artist;
+
+
 
     @ManyToOne
     @JsonIgnore
@@ -86,4 +91,6 @@ public class Exhibition {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "exhibition")
     private Set<ExhibitionTicket> exhibitionTickets;
+
+
 }

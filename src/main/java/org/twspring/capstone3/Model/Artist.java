@@ -26,7 +26,7 @@ public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(columnDefinition = "VARCHAR(35) NOT NULL")
+    @Column(columnDefinition = "VARCHAR(35) NOT NULL UNIQUE")
     @NotEmpty(message = "username cannot be empty")
     @Size(min=4,max = 25, message = "Username must have between 4 to 35 characters")
     private String username;
@@ -60,4 +60,9 @@ public class Artist {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "artist")
     private Set<CommissionRequest> commissionRequests;
+
+    @OneToOne(mappedBy = "artist", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Shop shop;
+
 }

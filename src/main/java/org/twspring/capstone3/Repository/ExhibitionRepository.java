@@ -7,4 +7,6 @@ import org.twspring.capstone3.Model.Exhibition;
 @Repository
 public interface ExhibitionRepository extends JpaRepository<Exhibition, Integer> {
     Exhibition findExhibitionById(Integer id);
+
+
 }

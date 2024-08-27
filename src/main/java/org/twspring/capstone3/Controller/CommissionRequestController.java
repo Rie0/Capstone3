@@ -29,7 +29,7 @@ public class CommissionRequestController {
        return ResponseEntity.status(200).body(new ApiResponse( "Commission request updated successfully"));
    }
    @DeleteMapping("/delete/{id}")
-   public ResponseEntity deleteCommissionRequest(@PathVariable Integer id) {
+   public ResponseEntity cancelCommissionRequest(@PathVariable Integer id) {
        commissionRequestService.deleteCommissionRequest(id);
        return ResponseEntity.status(200).body(new ApiResponse( "Commission request deleted successfully"));
    }

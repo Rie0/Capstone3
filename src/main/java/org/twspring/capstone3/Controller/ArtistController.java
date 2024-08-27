@@ -33,4 +33,10 @@ public class ArtistController {
         artistService.deleteArtist(id);
         return  ResponseEntity .status(200).body(new ApiResponse( "Artist deleted successfully"));
     }
+
+    @PostMapping("/{artistId}/assign-to/{shopId}")
+    public ResponseEntity assignArtistToShop(@PathVariable Integer artistId, @PathVariable Integer shopId){
+        artistService.assignArtistToShop(artistId, shopId);
+        return ResponseEntity.ok(new ApiResponse("Artist assigned successfully"));
+    }
 }

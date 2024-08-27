@@ -4,12 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.twspring.capstone3.Api.ApiException;
 import org.twspring.capstone3.Model.Artist;
+import org.twspring.capstone3.Model.Shop;
 import org.twspring.capstone3.Repository.ArtistRepository;
+import org.twspring.capstone3.Repository.ShopRepository;
 
 @Service
 @RequiredArgsConstructor
 public class ArtistService {
     private final ArtistRepository artistRepository;
+    private final ShopRepository shopRepository;
+
+
     public List<Artist> getAllArtists() {
         return artistRepository.findAll();
     }

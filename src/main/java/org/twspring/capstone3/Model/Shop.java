@@ -4,6 +4,7 @@ package org.twspring.capstone3.Model;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -28,8 +29,6 @@ public class Shop {
     private Integer id;
 
     @NotEmpty
-    //@Pattern(regexp = "^(true|false)$", message = "Is commission open must be either('true' or 'false')")
-    //@Column(columnDefinition = "boolean check(isCommissionOpen = true or isCommissionOpen = false)")
     @Column(columnDefinition = "boolean not null")
     private boolean isCommissionOpen = false;
 
@@ -48,4 +47,9 @@ public class Shop {
     private Set<Product> products;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
     private Set<CommissionRequest> commissionRequests;
+
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private Artist artist;
 }
