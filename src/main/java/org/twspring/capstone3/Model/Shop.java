@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -28,10 +29,10 @@ public class Shop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
     @Column(columnDefinition = "boolean not null")
     private boolean isCommissionOpen;
 
+    @Positive(message = "Commission price cannot be a negative number or a zero")
     @NotNull(message = "Minimal Price must be not null")
     @Column(columnDefinition = "double not null")
     private double minimalCommissionPrice;
@@ -42,6 +43,7 @@ public class Shop {
     private LocalDateTime createdAt;
 
 
+    //relationships
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
     private Set<Product> products;
@@ -53,4 +55,7 @@ public class Shop {
     @MapsId
     @JsonIgnore
     private Artist artist;
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    private Set<ArtPieceForSale> artPieceForSales;
 }

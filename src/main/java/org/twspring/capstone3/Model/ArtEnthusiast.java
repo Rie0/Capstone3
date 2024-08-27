@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,7 +24,7 @@ public class ArtEnthusiast {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(columnDefinition = "VARCHAR(35) NOT NULL UNIQUE")
+    @Column(columnDefinition = "VARCHAR(35) NOT NULL")
     @NotEmpty(message = "username cannot be empty")
     @Size(min=4,max = 25, message = "Username must have between 4 to 35 characters")
     private String username;
@@ -61,4 +62,14 @@ public class ArtEnthusiast {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "artEnthusiast")
     private Set<CommissionRequest> commissionRequests;
 
+
+    @ManyToMany
+    @JoinTable(
+            name = "art_enthusiast_likes",
+            joinColumns = @JoinColumn(name = "art_enthusiast_id"),
+            inverseJoinColumns = @JoinColumn(name = "art_work_id")
+    )
+    private Set<ArtWork> likedArtWorks = new HashSet<>();
+
 }
+

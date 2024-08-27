@@ -64,5 +64,4 @@ public class Artist {
     @OneToOne(mappedBy = "artist", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Shop shop;
-
 }

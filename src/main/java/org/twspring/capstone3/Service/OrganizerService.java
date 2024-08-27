@@ -39,10 +39,11 @@ public class OrganizerService {
         }
 
         organizer.setStatus(Organizer.Status.APPROVED);
+        organizerRepository.save(organizer);
 
     }
     //EP
-    public void RejectOrganizer(Integer adminId, Integer organizerId) {
+    public void rejectOrganizer(Integer adminId, Integer organizerId) {
         Organizer organizer = organizerRepository.getOrganizerById(organizerId);
         if (organizer == null){
             throw new ApiException("Organizer not found");
@@ -55,6 +56,7 @@ public class OrganizerService {
             throw new ApiException("Organizer already rejected");
         }
         organizer.setStatus(Organizer.Status.REJECTED);
+        organizerRepository.save(organizer);
     }
 
     public void updateOrganizer(Integer id, Organizer organizer) {

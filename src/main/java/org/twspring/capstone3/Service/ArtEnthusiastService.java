@@ -3,8 +3,10 @@ package org.twspring.capstone3.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.twspring.capstone3.Model.ArtEnthusiast;
+import org.twspring.capstone3.Model.Exhibition;
 import org.twspring.capstone3.Repository.ArtEnthusiastRepository;
 import org.twspring.capstone3.Api.ApiException;
+import org.twspring.capstone3.Repository.ExhibitionRepository;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArtEnthusiastService {
     private final ArtEnthusiastRepository artEnthusiastRepository;
+    private final ExhibitionRepository exhibitionRepository;
 
     public List<ArtEnthusiast> getAllArtEnthusiasts() {
         return artEnthusiastRepository.findAll();
@@ -37,5 +40,18 @@ public class ArtEnthusiastService {
                 new ApiException("Art Enthusiast with id " + id + " not found")
         );
         artEnthusiastRepository.delete(existingArtEnthusiast);
+    }
+
+    public void artEnthusiastBuyTicket(Integer artEnthusiast_id, Integer exhibition_id){
+        ArtEnthusiast artEnthusiast = artEnthusiastRepository.getArtEnthusiastById(artEnthusiast_id);
+        Exhibition exhibition = exhibitionRepository.findExhibitionById(exhibition_id);
+        if(artEnthusiast == null){
+            throw new ApiException("Art enthusiast with id " + artEnthusiast_id + " not found");
+        }if(exhibition == null){
+            throw new ApiException("Exhibition with id " + exhibition_id + " not found");
+        }
+        //if(exhibition.){}
+        artEnthusiastRepository.save(artEnthusiast);
+        exhibitionRepository.save(exhibition);
     }
 }

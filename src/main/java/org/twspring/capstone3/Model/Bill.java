@@ -43,4 +43,6 @@ public class Bill {
     @JoinColumn(name = "art_enthusiast_id")
     private ArtEnthusiast artEnthusiast;
 
+    //adds shop or artist???
+
 }

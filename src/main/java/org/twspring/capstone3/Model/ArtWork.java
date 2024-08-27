@@ -14,6 +14,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -24,13 +26,19 @@ public class ArtWork {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer id;
+
+
     @NotEmpty(message = "description cannot be empty")
     @Column(columnDefinition = "varchar(200) not null")
     private  String description;
 
     @NotEmpty(message = "image url cannot be empty")
     @Column(columnDefinition = "varchar(200) not null")
-    private  String imageUrl;
+    private  String imageUrl ;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('BID', 'NORMAL')")
+    private SellType sellType;
 
     @CreationTimestamp
     @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
@@ -40,12 +48,31 @@ public class ArtWork {
     @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp")
     private LocalDateTime updatedAt;
 
-    //add likes
-
     @ManyToOne
     //@JoinColumn(name = "art_work_id",referencedColumnName = "id")
     @JsonIgnore
     private Artist artist;
 
+    @NotNull
+    @Column(columnDefinition = "INT DEFAULT 0")
+    private int likeCount = 0;
 
+    @ManyToMany
+    @JoinTable(
+            name = "artwork_likes",
+            joinColumns = @JoinColumn(name = "artwork_id"),
+            inverseJoinColumns = @JoinColumn(name = "artenthusiast_id")
+    )
+    @JsonIgnore
+    private Set<ArtEnthusiast> likedBy = new HashSet<>();
+
+   // @ManyToMany(mappedBy = "likedArtWorks")
+    //@JsonIgnore
+    //private Set<ArtEnthusiast> likedByEnthusiasts = new HashSet<>();
+
+    //move to ArtPieceForSale
+    public enum SellType{
+        BID,
+        NORMAL
+    }
 }

@@ -11,5 +11,5 @@ import java.util.Date;
 public interface ExhibitionRepository extends JpaRepository<Exhibition, Integer> {
     Exhibition findExhibitionById(Integer id);
 
-   Exhibition findExhibitionByStartDateBetween(LocalDate startDate, LocalDate endDate);
+
 }

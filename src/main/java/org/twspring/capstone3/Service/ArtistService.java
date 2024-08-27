@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.twspring.capstone3.Api.ApiException;
 import org.twspring.capstone3.Model.Artist;
 import org.twspring.capstone3.Model.Shop;
+import org.twspring.capstone3.Repository.ArtWorkRepository;
 import org.twspring.capstone3.Repository.ArtistRepository;
 import org.twspring.capstone3.Repository.ShopRepository;
 
@@ -13,14 +14,17 @@ import org.twspring.capstone3.Repository.ShopRepository;
 public class ArtistService {
     private final ArtistRepository artistRepository;
     private final ShopRepository shopRepository;
+    private final ArtWorkRepository artWorkRepository;
 
 
     public List<Artist> getAllArtists() {
         return artistRepository.findAll();
     }
+
     public void addArtist(Artist artist) {
         artistRepository.save(artist);
     }
+
     public void updateArtist(Integer id,Artist artist) {
         Artist artist1= artistRepository.findArtistById(id);
         if(artist1 == null) {
@@ -33,6 +37,7 @@ public class ArtistService {
 //        artist1.setUpdatedAt(artist.getUpdatedAt());
         artistRepository.save(artist1);
     }
+
     public void deleteArtist(Integer id) {
         Artist artist = artistRepository.findArtistById(id);
         if(artist == null) {
@@ -40,5 +45,4 @@ public class ArtistService {
         }
         artistRepository.delete(artist);
     }
-
 }

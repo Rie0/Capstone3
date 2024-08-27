@@ -28,7 +28,7 @@ public class ExhibitionTicketService {
     }
 
     //post
-    //Extra
+    //EP
     public void issueExhibitionTicket(Integer artEnthusiast_id, Integer exhibition_id, ExhibitionTicket exhibitionTicket) {
         ArtEnthusiast ae = artEnthusiastRepository.getArtEnthusiastById(artEnthusiast_id);
         Exhibition e = exhibitionRepository.findExhibitionById(exhibition_id);

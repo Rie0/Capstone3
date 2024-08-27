@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.twspring.capstone3.Api.ApiResponse;
 import org.twspring.capstone3.Model.ArtWork;
 import org.twspring.capstone3.Service.ArtWorkService;
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -36,5 +38,31 @@ public class ArtWorkController {
     public ResponseEntity deleteArtWorkFromArtist(@PathVariable Integer id) {
         artWorkService.deleteArtWork(id);
         return ResponseEntity.status(200).body(new ApiResponse("Art work deleted successfully"));
+    }
+    //extra
+    @PostMapping("/like/{artEnthusiastId}/{artWorkId}")
+
+    public ResponseEntity likeArtWork(@PathVariable Integer artEnthusiastId, @PathVariable Integer artWorkId){
+        artWorkService.likeArtWork(artEnthusiastId, artWorkId);
+        return ResponseEntity.status(200).body("ArtWork liked successfully");
+
+    }
+    //extra
+    @GetMapping("/{artWorkId}/likes")
+    public ResponseEntity getLikeCount(@PathVariable Integer artWorkId) {
+        int likeCount = artWorkService.getLikeCount(artWorkId);
+        return ResponseEntity.status(200).body(likeCount);
+    }
+    //extra
+    @GetMapping("/popular")
+    public ResponseEntity<List<ArtWork>> getPopularArtWorks(@RequestParam(value = "limit", required = false) Integer limit) {
+        List<ArtWork> popularArtWorks = artWorkService.getPopularArtWorks(limit);
+        return ResponseEntity.status(200).body(popularArtWorks);
+    }
+    //extra
+    @GetMapping("/artist/{artistId}")
+    public ResponseEntity getArtworksByArtist(@PathVariable Integer artistId) {
+        List<ArtWork> artworks = artWorkService.getArtworksByArtist(artistId);
+        return ResponseEntity.status(200).body(artworks);
     }
 }

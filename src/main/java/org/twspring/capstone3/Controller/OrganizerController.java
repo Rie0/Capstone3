@@ -31,6 +31,22 @@ public class OrganizerController {
         return ResponseEntity.status(200).body(new ApiResponse("Organizer updated successfully"));
     }
 
+    //EP
+    @PutMapping("/{adminId}/approve/{organizerId}")
+    public ResponseEntity approveOrganizer(@PathVariable Integer adminId,
+                                           @PathVariable Integer organizerId) {
+        organizerService.approveOrganizer(adminId, organizerId);
+        return ResponseEntity.status(200).body(new ApiResponse("Organizer approved successfully"));
+    }
+
+    //EP
+    @PutMapping("/{adminId}/reject/{organizerId}")
+    public ResponseEntity rejectOrganizer(@PathVariable Integer adminId,
+                                          @PathVariable Integer organizerId) {
+        organizerService.rejectOrganizer(adminId, organizerId);
+        return ResponseEntity.status(200).body(new ApiResponse("Organizer rejected successfully"));
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteOrganizer(@PathVariable Integer id) {
         organizerService.deleteOrganizer(id);

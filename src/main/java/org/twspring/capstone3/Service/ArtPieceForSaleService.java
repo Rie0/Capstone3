@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.twspring.capstone3.Api.ApiException;
 import org.twspring.capstone3.Model.ArtPieceForSale;
+import org.twspring.capstone3.Model.Shop;
 import org.twspring.capstone3.Repository.ArtPieceForSaleRepository;
+import org.twspring.capstone3.Repository.ShopRepository;
 
 import java.util.List;
 
@@ -12,14 +14,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArtPieceForSaleService {
     private final ArtPieceForSaleRepository artPieceForSaleRepository;
+    private final ShopRepository shopRepository;
 
     public List<ArtPieceForSale> getAllArtPieceForSale(){
-
         return artPieceForSaleRepository.findAll();
     }
+//EP
+    public void addArtPieceForSale(ArtPieceForSale artPieceForSale, Integer shopId){
+        Shop shop = shopRepository.findShopById(shopId);
+        if(shop == null){
+            throw new ApiException("SHOP DOES NOT EXIST");
+        }
 
-    public void addArtPieceForSale(ArtPieceForSale artPieceForSale){
-
+        artPieceForSale.setShop(shop);
         artPieceForSaleRepository.save(artPieceForSale);
     }
 
@@ -42,8 +49,4 @@ public class ArtPieceForSaleService {
         }
         artPieceForSaleRepository.delete(a);
     }
-
-
-
-
 }

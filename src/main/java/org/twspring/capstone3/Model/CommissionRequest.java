@@ -18,10 +18,12 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @Entity
-public class CommissionRequest {
+public class CommissionRequest extends Product{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+
     @NotNull(message = "price cannot be null")
     @Column(columnDefinition = "int not null")
     private Integer Price;
@@ -42,13 +44,26 @@ public class CommissionRequest {
     @JsonIgnore
     private ArtEnthusiast artEnthusiast;
 
+    //status PENDING/ACCEPTED/REJECTED
+    @Enumerated(EnumType.STRING)
+    private CommissionRequest.Status status= CommissionRequest.Status.PENDING;
 
-    @ManyToOne
-    @JsonIgnore
-    private Shop shop;
+    public enum Status{
+        COMPLETED, //add endpoint to edit to completed
+        APPROVED, //add end point to accept
+        PENDING, //default
+        REJECTED,
+        CANCELED//add end point to reject
+    }
 
 
-    @ManyToOne
-    @JsonIgnore
-    private Artist artist;
+
+//    @ManyToOne
+//    @JsonIgnore
+//    private Shop shop;
+//
+//
+//    @ManyToOne
+//    @JsonIgnore
+//    private Artist artist;
 }

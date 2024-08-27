@@ -17,9 +17,9 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 public class ArtistProfile {
+    //Validations are in the DTO
     @Id
     private Integer id;
-    @NotEmpty(message = "bio cannot be empty")
     @Column(columnDefinition = "varchar(500) not null")
     private String bio;
 

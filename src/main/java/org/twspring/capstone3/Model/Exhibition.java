@@ -46,7 +46,7 @@ public class Exhibition {
     @Column(columnDefinition = "INT NOT NULL")
     @NotNull(message = "price cannot be null")
     @Positive(message = "message cannot be a zero or a negative number")
-    private double price;
+    private double pricePerDay;
 
     @Column(columnDefinition = "BOOLEAN NOT NULL")
     @NotNull(message = "is available cannot be null")
@@ -54,7 +54,7 @@ public class Exhibition {
 
     @Column(columnDefinition = "BOOLEAN NOT NULL")
     @NotNull(message = "is available cannot be null")
-    private boolean isOpen; //AE can buy tickets
+    private boolean isOpen; //AE can buy tickets //(change the name to can buy 
 
     @Column(columnDefinition = "INT NOT NULL")
     @NotNull(message = "capacity cannot be null")
@@ -92,6 +92,5 @@ public class Exhibition {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "exhibition")
     private Set<ExhibitionTicket> exhibitionTickets;
-
 
 }

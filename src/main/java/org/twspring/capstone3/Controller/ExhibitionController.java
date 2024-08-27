@@ -42,8 +42,8 @@ public class ExhibitionController {
     }
 
     @GetMapping("/rent/{artist_id}/{start_date}/{end_date}")
-    public ResponseEntity rentExhibitionForArtists(@PathVariable Integer artist_id, @PathVariable LocalDate start_date, @PathVariable LocalDate end_date) {
-        exhibitionService.rentExhibitionForArtists(artist_id,start_date,end_date);
+    public ResponseEntity rentExhibitionForArtist(@PathVariable Integer exhibition_id,@PathVariable Integer artist_id, @PathVariable LocalDate start_date, @PathVariable LocalDate end_date) {
+        exhibitionService.rentExhibitionForArtist(exhibition_id,artist_id,start_date,end_date);
         return ResponseEntity.status(200).body(new ApiResponse("Artist rent exhibition successfully"));
     }
 

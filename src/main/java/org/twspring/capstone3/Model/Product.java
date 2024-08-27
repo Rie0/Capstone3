@@ -1,6 +1,7 @@
 package org.twspring.capstone3.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED) //try other types?
 public class Product {
 
     @Id
@@ -36,6 +38,7 @@ public class Product {
     private Artist artist;
 
 //    shop_id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JsonIgnore
     private Shop shop;
 }

@@ -18,11 +18,13 @@ public class ArtPieceForSaleController {
     public ResponseEntity getAllArtPieceForSale(){
         return ResponseEntity.status(200).body(artPieceForSaleService.getAllArtPieceForSale());
     }
-    @PostMapping("/add")
-    public ResponseEntity addArtPieceForSale(@Valid @RequestBody ArtPieceForSale artPieceForSale ){
-        artPieceForSaleService.addArtPieceForSale(artPieceForSale);
+    @PostMapping("/add/{shopId}")
+    public ResponseEntity addArtPieceForSale(@PathVariable Integer shopId,
+                                             @Valid @RequestBody ArtPieceForSale artPieceForSale){
+        artPieceForSaleService.addArtPieceForSale(artPieceForSale, shopId);
         return ResponseEntity.status(200).body("Successfully added Art piece for sale");
     }
+
     @PutMapping("/update/{id}")
     public ResponseEntity updateArtPieceForSale(@PathVariable Integer id,@Valid @RequestBody ArtPieceForSale artPieceForSale ){
         artPieceForSaleService.updateArtPieceForSale(artPieceForSale , id);

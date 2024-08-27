@@ -36,4 +36,6 @@ public class ArtEnthusiastController {
         artEnthusiastService.deleteArtEnthusiast(id);
         return ResponseEntity.status(200).body(new ApiResponse("Art Enthusiast deleted successfully"));
     }
+
+
 }

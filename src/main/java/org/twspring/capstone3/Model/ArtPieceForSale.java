@@ -1,5 +1,6 @@
 package org.twspring.capstone3.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 
-public class ArtPieceForSale {
+public class ArtPieceForSale extends Product{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +42,7 @@ public class ArtPieceForSale {
     @Column(columnDefinition = "Boolean default false")
     private boolean isSold = false;
 
+    @ManyToOne
+    @JsonIgnore
+    private Shop shop;
 }

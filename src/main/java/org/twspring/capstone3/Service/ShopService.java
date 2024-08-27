@@ -37,7 +37,6 @@ public class ShopService {
 
         shop.setCommissionOpen(updateShop.isCommissionOpen());
         shop.setMinimalCommissionPrice(updateShop.getMinimalCommissionPrice());
-
         shopRepository.save(shop);
     }
 

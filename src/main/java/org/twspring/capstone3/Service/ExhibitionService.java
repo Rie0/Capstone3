@@ -43,7 +43,7 @@ public class ExhibitionService {
         existingExhibition.setTitle(exhibition.getTitle());
         existingExhibition.setDescription(exhibition.getDescription());
         existingExhibition.setLocation(exhibition.getLocation());
-        existingExhibition.setPrice(exhibition.getPrice());
+        existingExhibition.setPricePerDay(exhibition.getPricePerDay());
         existingExhibition.setAvailableForRent(exhibition.isAvailableForRent());
         existingExhibition.setMaxCapacity(exhibition.getMaxCapacity());
         existingExhibition.setStartDate(exhibition.getStartDate());
@@ -58,14 +58,47 @@ public class ExhibitionService {
         );
         exhibitionRepository.delete(existingExhibition);
     }
-
-    public void rentExhibitionForArtists(Integer artist_id, LocalDate startDate, LocalDate endDate) {
-        Exhibition exhibition = exhibitionRepository.findExhibitionByStartDateBetween(startDate, endDate);
-        Artist artist = artistRepository.findArtistById(artist_id);
-        if(exhibition == null) {
-            throw new ApiException("Exhibition is not available");
-        }if(artist == null){
-            throw new ApiException("Artist with id " + artist_id + " not found");}
-        exhibition.setAvailableForRent(true);
-        exhibitionRepository.save(exhibition);}
+//EP
+    public void rentExhibitionForArtist(Integer exhibition_id, Integer artist_id, LocalDate startDate, LocalDate endDate) {
+            Exhibition exhibition = exhibitionRepository.findExhibitionById(exhibition_id);
+            Artist artist = artistRepository.findArtistById(artist_id);
+            if(exhibition == null) {
+                throw new ApiException("Exhibition wit id " + exhibition_id + " not found");
+            }
+            if(artist == null){
+                throw new ApiException("Artist with id " + artist_id + " not found");
+            }
+            // Check if the exhibition is available for the given date range
+          if (exhibition.isAvailableForRent()) {
+              exhibition.setAvailableForRent(false);
+              exhibition.setStartDate(startDate);
+              exhibition.setEndDate(endDate);
+              exhibition.setOpen(true);
+              exhibitionRepository.save(exhibition);
+          } else {
+             throw  new ApiException("Exhibition is rented");
+          }
+    }
+    //END RENT
+    public  void endRentExhibition(Integer exhibition_id, Integer organizer_id) {
+        Exhibition e = exhibitionRepository.findExhibitionById(exhibition_id);
+        Organizer o = organizerRepository.getOrganizerById(organizer_id);
+        if(e == null){
+            throw new ApiException("Exhibition with id " + exhibition_id + " not found");
+        }if(o==null){
+            throw new ApiException("Organizer with id " + organizer_id + " not found");
+        }if(e.getEndDate().isAfter(LocalDate.now())){
+            throw new ApiException("Cannot end exhibition before end date");
+        }if(e.isAvailableForRent()){
+            throw new ApiException("Exhibition is not rented");
+        }
+        // Set the exhibition as available for rent again
+        e.setAvailableForRent(true);
+        e.setStartDate(null);
+        e.setEndDate(null);
+        e.setCurrentCapacity(0);
+        e.setOpen(false);
+        exhibitionRepository.save(e); }
+    //EXTEND RENT
+    //CANCEL RENT(User cancels rent before end date)
 }
