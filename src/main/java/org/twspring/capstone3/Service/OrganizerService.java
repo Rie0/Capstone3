@@ -20,20 +20,13 @@ public class OrganizerService {
         return organizerRepository.findAll();
     }
 
-    public Organizer getOrganizerById(Integer id) {
-        return organizerRepository.findById(id).orElseThrow(() ->
-                new ApiException("Organizer not found")
-        );
-    }
-
-    //EP
     public void addOrganizer(Organizer organizer) {
         organizerRepository.save(organizer);
     }
 
     //EP
     public void approveOrganizer(Integer adminId, Integer organizerId) {
-        Organizer organizer = getOrganizerById(organizerId);
+        Organizer organizer = organizerRepository.getOrganizerById(organizerId);
         if (organizer == null){
             throw new ApiException("Organizer not found");
         }
@@ -41,11 +34,16 @@ public class OrganizerService {
         if (admin == null){
             throw new ApiException("Admin not found");
         }
+        if (organizer.getStatus()==Organizer.Status.APPROVED){
+            throw new ApiException("Organizer already approved");
+        }
+
+        organizer.setStatus(Organizer.Status.APPROVED);
 
     }
     //EP
     public void RejectOrganizer(Integer adminId, Integer organizerId) {
-        Organizer organizer = getOrganizerById(organizerId);
+        Organizer organizer = organizerRepository.getOrganizerById(organizerId);
         if (organizer == null){
             throw new ApiException("Organizer not found");
         }
@@ -53,6 +51,10 @@ public class OrganizerService {
         if (admin == null){
             throw new ApiException("Admin not found");
         }
+        if(organizer.getStatus()==Organizer.Status.REJECTED){
+            throw new ApiException("Organizer already rejected");
+        }
+        organizer.setStatus(Organizer.Status.REJECTED);
     }
 
     public void updateOrganizer(Integer id, Organizer organizer) {

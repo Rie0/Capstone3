@@ -1,6 +1,5 @@
 package org.twspring.capstone3.Model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,7 +11,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -43,9 +41,13 @@ public class CommissionRequest {
     @ManyToOne
     @JsonIgnore
     private ArtEnthusiast artEnthusiast;
+
+
     @ManyToOne
     @JsonIgnore
     private Shop shop;
+
+
     @ManyToOne
     @JsonIgnore
     private Artist artist;

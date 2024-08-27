@@ -19,11 +19,6 @@ public class AdminController {
         return ResponseEntity.status(200).body(adminService.getAllAdmins());
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity getAdmin(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(adminService.getAdminById(id));
-    }
-
     @PostMapping("/add")
     public ResponseEntity addAdmin(@Valid @RequestBody Admin admin) {
         adminService.addAdmin(admin);

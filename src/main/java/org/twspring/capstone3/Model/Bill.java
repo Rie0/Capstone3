@@ -43,8 +43,4 @@ public class Bill {
     @JoinColumn(name = "art_enthusiast_id")
     private ArtEnthusiast artEnthusiast;
 
-
-    // Product_id
-
-    // product_id
 }

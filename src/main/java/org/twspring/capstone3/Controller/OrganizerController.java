@@ -19,11 +19,6 @@ public class OrganizerController {
         return ResponseEntity.status(200).body(organizerService.getAllOrganizers());
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity getOrganizer(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(organizerService.getOrganizerById(id));
-    }
-
     @PostMapping("/add")
     public ResponseEntity addOrganizer(@Valid @RequestBody Organizer organizer) {
         organizerService.addOrganizer(organizer);

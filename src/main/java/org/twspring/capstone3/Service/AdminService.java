@@ -17,11 +17,6 @@ public class AdminService {
         return adminRepository.findAll();
     }
 
-    public Admin getAdminById(Integer id) {
-        return adminRepository.findById(id).orElseThrow(() ->
-                new ApiException("Admin not found")
-        );
-    }
 
     public void addAdmin(Admin admin) {
         adminRepository.save(admin);

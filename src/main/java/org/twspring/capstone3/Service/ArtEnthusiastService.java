@@ -17,12 +17,6 @@ public class ArtEnthusiastService {
         return artEnthusiastRepository.findAll();
     }
 
-    public ArtEnthusiast getArtEnthusiastById(Integer id) {
-        return artEnthusiastRepository.findById(id).orElseThrow(() ->
-                new ApiException("Art Enthusiast not found")
-        );
-    }
-
     public void addArtEnthusiast(ArtEnthusiast artEnthusiast) {
         artEnthusiastRepository.save(artEnthusiast);
     }

@@ -66,10 +66,16 @@ public class Exhibition {
     @PositiveOrZero(message = "capacity cannot be a negative number")
     private Integer currentCapacity = 0;
 
-    @NotNull(message = "Date cannot be null")
+    @NotNull(message = "Start date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL DEFAULT TIMESTAMP(CURRENT_DATE)")
-    private LocalDate date;
+    @Column(columnDefinition = "DATE NOT NULL")
+    private LocalDate startDate;
+
+    @NotNull(message = "End date cannot be null")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(columnDefinition = "DATE NOT NULL")
+    private LocalDate endDate;
+
 
     @CreationTimestamp
     @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
@@ -80,11 +86,6 @@ public class Exhibition {
     private LocalDateTime updatedAt;
 
     //relations
-
-    //current artist taking the exibition
-
-
-
     @ManyToOne
     @JsonIgnore
     private Organizer organizer;

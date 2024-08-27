@@ -19,11 +19,6 @@ public class ArtEnthusiastController {
         return ResponseEntity.status(200).body(artEnthusiastService.getAllArtEnthusiasts());
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity getArtEnthusiast(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(artEnthusiastService.getArtEnthusiastById(id));
-    }
-
     @PostMapping("/add")
     public ResponseEntity addArtEnthusiast(@Valid @RequestBody ArtEnthusiast artEnthusiast) {
         artEnthusiastService.addArtEnthusiast(artEnthusiast);

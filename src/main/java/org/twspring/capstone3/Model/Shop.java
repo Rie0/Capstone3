@@ -30,7 +30,7 @@ public class Shop {
 
     @NotEmpty
     @Column(columnDefinition = "boolean not null")
-    private boolean isCommissionOpen = false;
+    private boolean isCommissionOpen;
 
     @NotNull(message = "Minimal Price must be not null")
     @Column(columnDefinition = "double not null")
@@ -45,6 +45,7 @@ public class Shop {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
     private Set<Product> products;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
     private Set<CommissionRequest> commissionRequests;
 

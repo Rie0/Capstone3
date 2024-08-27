@@ -7,40 +7,32 @@ import lombok.RequiredArgsConstructor;
 import org.twspring.capstone3.Api.ApiException;
 import org.twspring.capstone3.Model.Artist;
 import org.twspring.capstone3.Model.Shop;
+import org.twspring.capstone3.Repository.ArtistRepository;
 import org.twspring.capstone3.Repository.ShopRepository;
 
 @Service
 @RequiredArgsConstructor
 public class ShopService {
     private final ShopRepository shopRepository;
+    private final ArtistRepository artistRepository;
 
     public List<Shop> getAllShop(){
         return shopRepository.findAll();
     }
 
-//    + 1
-    public void addShop(Shop shop){
+    public void addShop(Shop shop, Integer artistId){
+        Artist artist = artistRepository.findArtistById(artistId);
+        if(artist == null){
+            throw new ApiException("ARTIST DOES NOT EXIST");
+        }
+        shop.setArtist(artist);
         shopRepository.save(shop);
     }
 
-    public void assignArtistToShop(Integer artistId, Integer shopId) {
-        Artist artist = artistRepository.findArtistById(artistId);
-        if(artist == null) {
-            throw new ApiException("Artist not found");
-        }
-
-        Shop shop = shopRepository.findShopById(shopId);
-        if(shop == null) {
-            throw new ApiException("Shop not found");
-        }
-
-        artist.setShop(shop);
-        artistRepository.save(artist);
-    }
     public void updateShop(Integer id, Shop updateShop){
         Shop shop = shopRepository.findShopById(id);
         if(shop == null){
-            throw new ApiException("SHOP NOT FOUND");
+            throw new ApiException("SHOP DOES NOT EXIST");
         }
 
         shop.setCommissionOpen(updateShop.isCommissionOpen());
@@ -53,9 +45,32 @@ public class ShopService {
     public void deleteShop(Integer id){
         Shop shop = shopRepository.findShopById(id);
         if(shop == null){
-            throw new ApiException("SHOP NOT FOUND");
+            throw new ApiException("SHOP DOES NOT EXIST");
         }
 
         shopRepository.delete(shop);
+    }
+
+    public void switchIsCommissionOpen(Integer id){
+        Shop shop = shopRepository.findShopById(id);
+        if(shop == null){
+            throw new ApiException("SHOP DOES NOT EXIST");
+        }
+
+        if(shop.isCommissionOpen()){
+            shop.setCommissionOpen(false);
+        }else {
+            shop.setCommissionOpen(true);
+        }
+        shopRepository.save(shop);
+    }
+
+    public void minimalCommissionPrice(Integer id, double price){
+        Shop shop = shopRepository.findShopById(id);
+        if(shop == null){
+            throw new ApiException("SHOP DOES NOT EXIST");
+        }
+        shop.setMinimalCommissionPrice(price);
+        shopRepository.save(shop);
     }
 }

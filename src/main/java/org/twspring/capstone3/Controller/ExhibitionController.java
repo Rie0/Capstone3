@@ -8,6 +8,9 @@ import org.twspring.capstone3.Api.ApiResponse;
 import org.twspring.capstone3.Model.Exhibition;
 import org.twspring.capstone3.Service.ExhibitionService;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/exhibition")
@@ -19,14 +22,10 @@ public class ExhibitionController {
         return ResponseEntity.status(200).body(exhibitionService.getAllExhibitions());
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity getExhibition(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(exhibitionService.getExhibitionById(id));
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity addExhibition(@Valid @RequestBody Exhibition exhibition) {
-        exhibitionService.addExhibition(exhibition);
+    @PostMapping("/add/{organizerId}")
+    public ResponseEntity addExhibition(@PathVariable Integer organizerId,
+                                        @Valid @RequestBody Exhibition exhibition) {
+        exhibitionService.addExhibitionToOrganizer(organizerId,exhibition);
         return ResponseEntity.status(200).body(new ApiResponse("Exhibition added successfully"));
     }
 
@@ -41,4 +40,12 @@ public class ExhibitionController {
         exhibitionService.deleteExhibition(id);
         return ResponseEntity.status(200).body(new ApiResponse("Exhibition deleted successfully"));
     }
+
+    @GetMapping("/rent/{artist_id}/{start_date}/{end_date}")
+    public ResponseEntity rentExhibitionForArtists(@PathVariable Integer artist_id, @PathVariable LocalDate start_date, @PathVariable LocalDate end_date) {
+        exhibitionService.rentExhibitionForArtists(artist_id,start_date,end_date);
+        return ResponseEntity.status(200).body(new ApiResponse("Artist rent exhibition successfully"));
+    }
+
+
 }

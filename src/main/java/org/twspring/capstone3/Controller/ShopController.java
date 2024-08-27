@@ -15,14 +15,15 @@ import org.twspring.capstone3.Service.ShopService;
 public class ShopController {
     private final ShopService shopService;
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity getAllShop(){
         return ResponseEntity.ok(shopService.getAllShop());
     }
 
+//    + EndPoint
     @PostMapping
-    public ResponseEntity addShop(@Valid @RequestBody Shop shop){
-        shopService.addShop(shop);
+    public ResponseEntity addShop(@RequestParam Integer id, @Valid @RequestBody Shop shop){
+        shopService.addShop(shop, id);
         return ResponseEntity.ok(new ApiResponse("Shop added successfully"));
     }
 
@@ -36,5 +37,18 @@ public class ShopController {
     public ResponseEntity deleteShop(@RequestParam Integer id){
         shopService.deleteShop(id);
         return ResponseEntity.ok(new ApiResponse("Shop deleted successfully"));
+    }
+//    + EndPonit
+    @PutMapping("/switch-commission")
+    public ResponseEntity switchIsCommissionOpen(@RequestParam Integer id){
+        shopService.switchIsCommissionOpen(id);
+        return ResponseEntity.ok(new ApiResponse("Switch isCommissionOpen successfully"));
+    }
+
+//    + EndPoint
+    @PutMapping("/edit-minimal-commission/{id}/{price}")
+    public ResponseEntity minimalCommissionPrice(@PathVariable Integer id, @PathVariable double price){
+        shopService.minimalCommissionPrice(id, price);
+        return ResponseEntity.ok(new ApiResponse("Minimal commission price updated successfully"));
     }
 }
