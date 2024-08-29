@@ -24,6 +24,7 @@ public class OrderService {
     }
 
 
+    //EP
     public void addOrderToShop(Integer artEnthusiastId, Integer shopId){
       ArtEnthusiast artEnthusiast = artEnthusiastRepository.getArtEnthusiastById(artEnthusiastId);
       if( artEnthusiast == null ){
@@ -50,7 +51,9 @@ public class OrderService {
         if(artEnthusiast==null){
             throw new ApiException("Art enthusiast with ID "+artOrderId+" does not exist");
         }
-
+        if(artEnthusiastId!=artOrder.getArtEnthusiast().getId()){
+            throw new ApiException("This order doesn't belong to this art enthusiast");
+        }
         ArtPieceForSale artPieceForSale = artPieceForSaleRepository.findArtPieceForSaleById(artPieceForSaleId);
         if(artPieceForSale==null){
             throw new ApiException("Art piece for Sale with ID "+artOrderId+" does not exist");
@@ -84,6 +87,9 @@ public class OrderService {
         if(artEnthusiast==null){
             throw new ApiException("Art enthusiast with ID "+artOrderId+" does not exist");
         }
+        if(artEnthusiastId!=artOrder.getArtEnthusiast().getId()){
+            throw new ApiException("This order doesn't belong to this art enthusiast");
+        }
         ArtPieceForSale artPieceForSale = artPieceForSaleRepository.findArtPieceForSaleById(artPieceForSaleId);
         if(artPieceForSale==null){
             throw new ApiException("Art piece for Sale with ID "+artOrderId+" does not exist");
@@ -108,6 +114,9 @@ public class OrderService {
         ArtEnthusiast artEnthusiast = artEnthusiastRepository.getArtEnthusiastById(artEnthusiastId);
         if(artEnthusiast==null){
             throw new ApiException("Art enthusiast with ID "+artEnthusiastId+" does not exist");
+        }
+        if(artEnthusiastId!=artOrder.getArtEnthusiast().getId()){
+            throw new ApiException("This order doesn't belong to this art enthusiast");
         }
         DeliveryCompany deliveryCompany= deliveryCompanyRepository.getDeliveryCompaniesById(deliveryCompanyId);
         if(deliveryCompany==null){
@@ -134,6 +143,9 @@ public class OrderService {
         }
         if(artOrder.getArtPieceForSale().isEmpty()){
             throw new ApiException("Your order is empty");
+        }
+        if(artEnthusiastId!=artOrder.getArtEnthusiast().getId()){
+            throw new ApiException("This order doesn't belong to this art enthusiast");
         }
         //change status and create new order
         artOrder.setStatus(ArtOrder.Status.SHIPPED);

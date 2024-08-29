@@ -8,6 +8,7 @@ import org.twspring.capstone3.Repository.AdminRepository;
 import org.twspring.capstone3.Repository.OrganizerRepository;
 import org.twspring.capstone3.Api.ApiException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -67,7 +68,7 @@ public class OrganizerService {
         existingOrganizer.setPassword(organizer.getPassword());
         existingOrganizer.setEmail(organizer.getEmail());
         existingOrganizer.setStatus(organizer.getStatus());
-//        existingOrganizer.setUpdatedAt(organizer.getUpdatedAt());
+        existingOrganizer.setUpdatedAt(LocalDateTime.now());
         organizerRepository.save(existingOrganizer);
     }
 

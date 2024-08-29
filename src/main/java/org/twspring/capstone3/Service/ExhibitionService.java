@@ -27,7 +27,6 @@ public class ExhibitionService {
     }
 
     //EP
-    //ADD logic to check if orgniazer is approved
     public void addExhibitionToOrganizer(Integer organizerId, Exhibition exhibition) {
         Organizer org= organizerRepository.getOrganizerById(organizerId);
         if (org==null){

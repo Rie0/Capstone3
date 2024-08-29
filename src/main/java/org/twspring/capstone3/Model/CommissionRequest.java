@@ -32,7 +32,6 @@ public class CommissionRequest extends Product{
     @Column(columnDefinition = "varchar(200) not null")
     private String description;
 
-    //status PENDING/ACCEPTED/REJECTED
     @Enumerated(EnumType.STRING)
     private CommissionRequest.Status status= CommissionRequest.Status.PENDING;
 

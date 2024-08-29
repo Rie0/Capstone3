@@ -6,6 +6,7 @@ import org.twspring.capstone3.Api.ApiException;
 import org.twspring.capstone3.Model.*;
 import org.twspring.capstone3.Repository.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,6 +23,7 @@ public class CommissionRequestService {
     }
 
 
+    //EP
     public void createCommissionRequest(Integer artEnthusiast_id,Integer shop_id,Integer artist_id,CommissionRequest commissionRequest) {
         ArtEnthusiast artEnthusiast = artEnthusiastRepository.getArtEnthusiastById(artEnthusiast_id);
         Shop shop = shopRepository.findShopById(shop_id);
@@ -43,12 +45,6 @@ public class CommissionRequestService {
         if (!shop.getArtist().getId().equals(artist_id)) {
             throw new ApiException("The artist does not own this shop");
         }
-        //artEnthusiast.getCommissionRequests().add(commissionRequest);
-        //shop.getCommissionRequests().add(commissionRequest);
-        //artist.getCommissionRequests().add(commissionRequest);
-        //artEnthusiastRepository.save(artEnthusiast);
-        //shopRepository.save(shop);
-        //artistRepository.save(artist);
         commissionRequest.setArtEnthusiast(artEnthusiast);
         commissionRequest.setShop(shop);
         commissionRequest.setArtist(artist);
@@ -64,11 +60,11 @@ public class CommissionRequestService {
         }
         currentCommissionRequest.setDescription(commissionRequest.getDescription());
         currentCommissionRequest.setPrice(commissionRequest.getPrice());
-//        currentCommissionRequest.setCreatedAt(currentCommissionRequest.getCreatedAt());
-//        currentCommissionRequest.setUpdatedAt(currentCommissionRequest.getUpdatedAt());
+        currentCommissionRequest.setUpdatedAt(LocalDateTime.now());
         commissionRequestRepository.save(currentCommissionRequest);
 
     }
+    //EP
     public void cancelCommissionRequest(Integer artEnthusiastId,Integer id) {
         CommissionRequest currentCommissionRequest = commissionRequestRepository.findCommissionRequestById(id);
         if (currentCommissionRequest == null) {
@@ -82,6 +78,7 @@ public class CommissionRequestService {
         commissionRequestRepository.save(currentCommissionRequest);
     }
 
+    //EP
     public void changeCommissionRequestStatus(Integer artistId, Integer id, CommissionRequest.Status status) {
         CommissionRequest commissionRequest = commissionRequestRepository.findCommissionRequestById(id);
         if (commissionRequest == null) {
@@ -114,6 +111,7 @@ public class CommissionRequestService {
         }
     }
 
+    //EP
     public void checkoutCommissionOrder(Integer artistId, Integer commissionId){
         CommissionRequest commissionRequest = commissionRequestRepository.findCommissionRequestById(commissionId);
         if(commissionRequest==null){

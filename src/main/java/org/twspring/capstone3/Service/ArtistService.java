@@ -1,10 +1,10 @@
 package org.twspring.capstone3.Service;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.twspring.capstone3.Api.ApiException;
 import org.twspring.capstone3.Model.Artist;
-import org.twspring.capstone3.Model.Shop;
 import org.twspring.capstone3.Repository.ArtWorkRepository;
 import org.twspring.capstone3.Repository.ArtistRepository;
 import org.twspring.capstone3.Repository.ShopRepository;
@@ -32,9 +32,7 @@ public class ArtistService {
         }
         artist1.setEmail(artist.getEmail());
         artist1.setPassword(artist.getPassword());
-        artist1.setUsername(artist.getUsername());
-//        artist1.setCreatedAt(artist.getCreatedAt());
-//        artist1.setUpdatedAt(artist.getUpdatedAt());
+        artist1.setUpdatedAt(LocalDateTime.now());
         artistRepository.save(artist1);
     }
 

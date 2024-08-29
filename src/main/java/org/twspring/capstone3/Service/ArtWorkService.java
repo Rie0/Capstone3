@@ -10,6 +10,8 @@ import org.twspring.capstone3.Model.Artist;
 import org.twspring.capstone3.Repository.ArtEnthusiastRepository;
 import org.twspring.capstone3.Repository.ArtWorkRepository;
 import org.twspring.capstone3.Repository.ArtistRepository;
+
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class ArtWorkService {
         return artWorkRepository.findAll();
     }
 
+    //EP
     public void addArtWorkToArtist(Integer artist_id, ArtWork artWork) {
         Artist artist = artistRepository.findArtistById(artist_id);
         if (artist == null) {
@@ -41,8 +44,7 @@ public class ArtWorkService {
         }
         artWork1.setDescription(artWork.getDescription());
         artWork1.setImageUrl(artWork.getImageUrl());
-//        artWork1.setCreatedAt(artWork.getCreatedAt());
-//        artWork1.setUpdatedAt(artWork.getUpdatedAt());
+        artWork1.setUpdatedAt(LocalDateTime.now());
         artWorkRepository.save(artWork1);
     }
 
@@ -54,6 +56,7 @@ public class ArtWorkService {
         }
         artWorkRepository.delete(artWork);
     }
+    //EP
     public void likeArtWork(Integer artEnthusiastId, Integer artWorkId) {
         ArtEnthusiast artEnthusiast = artEnthusiastRepository.getArtEnthusiastById(artEnthusiastId);
         if(artEnthusiast == null) {
@@ -74,9 +77,9 @@ public class ArtWorkService {
 
         artEnthusiast.getLikedArtWorks().add(artWork);
         artEnthusiastRepository.save(artEnthusiast);
-
-
     }
+
+    //EP
     public int getLikeCount(Integer artWorkId) {
         ArtWork artWork = artWorkRepository.findArtWorkById(artWorkId);
         if (artWork == null) {
@@ -98,8 +101,7 @@ public class ArtWorkService {
         return allArtWorks;
     }
 
-
-
+    //EP
     public List<ArtWork> getArtworksByArtist(Integer artistId) {
         Artist artist = artistRepository.findArtistById(artistId);
         if (artist == null) {
@@ -108,6 +110,7 @@ public class ArtWorkService {
         return artWorkRepository.findByArtist(artist);
     }
 
+    //EP
     public List<ArtWork> searchArtWorks(String keyword) {
         return artWorkRepository.searchArtWorksByKeyword(keyword);
     }

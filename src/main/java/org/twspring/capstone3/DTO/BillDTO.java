@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class BillDTO {
-    //add when needed....
 
     private Integer artEnthusiastId;
 

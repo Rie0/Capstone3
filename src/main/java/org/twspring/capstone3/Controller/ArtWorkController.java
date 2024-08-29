@@ -45,7 +45,7 @@ public class ArtWorkController {
         return ResponseEntity.status(200).body(new ApiResponse("Art work deleted successfully"));
     }
     //extra
-    @PostMapping("/like/{artEnthusiastId}/{artWorkId}")
+    @PostMapping("/{artEnthusiastId}/like/{artWorkId}")
 
     public ResponseEntity likeArtWork(@PathVariable Integer artEnthusiastId, @PathVariable Integer artWorkId){
         artWorkService.likeArtWork(artEnthusiastId, artWorkId);

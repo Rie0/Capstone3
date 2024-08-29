@@ -84,18 +84,6 @@ public class ShopService {
         shopRepository.save(shop);
     }
 
-//    public void resetSalesStatus(Integer shopId){
-//        Shop shop = shopRepository.findShopById(shopId);
-//        if(shop == null){
-//            throw new ApiException("SHOP DOES NOT EXIST");
-//        }
-//
-//        for (ArtPieceForSale artPiece : shop.getArtPieceForSales()){
-//            artPiece.setSold(false);
-//            shopRepository.save(shop);
-//        }
-//    }
-
 
     public List<Shop> getShopsWithOpenCommissions(){
         return shopRepository.findShopByIsCommissionOpenTrue();

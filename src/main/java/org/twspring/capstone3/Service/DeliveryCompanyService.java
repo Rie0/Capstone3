@@ -20,6 +20,7 @@ public class DeliveryCompanyService {
         return deliveryCompanyRepository.findAll();
     }
 
+    //EP
     public void addDeliveryCompany(Integer adminId, DeliveryCompany deliveryCompany) {
         Admin admin = adminRepository.findAdminById(adminId);
         if (admin == null) {

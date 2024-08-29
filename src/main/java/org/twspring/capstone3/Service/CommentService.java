@@ -19,6 +19,7 @@ public class CommentService {
     private final ArtEnthusiastRepository artEnthusiastRepository;
 
 
+    //EP
     public Comment leaveComment(Integer artWorkId, Integer artEnthusiastId, String text) {
         ArtWork artWork = artWorkRepository.findArtWorkById(artWorkId);
 
@@ -38,6 +39,7 @@ public class CommentService {
 
         return commentRepository.save(comment);
     }
+    //EP
     public List<Comment> getAllCommentsByArtWorkId(Integer artWorkId) {
         return commentRepository.findByArtWorkId(artWorkId);
     }

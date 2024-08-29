@@ -55,15 +55,6 @@ public class ShopController {
         return ResponseEntity.ok(new ApiResponse("Minimal commission price updated successfully"));
     }
 
-//    + EndPoint
-//    @PutMapping("/reset-salse-status/{shopId}")
-//    public ResponseEntity resetSalesStatus(@PathVariable Integer shopId){
-//        shopService.resetSalesStatus(shopId);
-//        return ResponseEntity.ok(new ApiResponse("Reset sales status successfully"));
-//    }
-
-
-
 //    + EndPoint X
     @GetMapping("/shops-with-open-commissions")
     public ResponseEntity getShopsWithOpenCommissions(){
@@ -95,9 +86,5 @@ public class ShopController {
     public ResponseEntity totalUnSold(@PathVariable Integer shopId){
         return ResponseEntity.ok(shopService.totalUnSold(shopId));
     }
-
-//    + (counter for sales price)
-//    + (bid)
-//    + (Report on Art Pieces)
 
 }

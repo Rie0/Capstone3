@@ -24,6 +24,7 @@ public class ArtistProfileService {
 
 
 
+    //EP
     public void createArtistProfile(ArtistProfileDTO artistProfileDTO) {
         Artist artist=artistRepository.findArtistById(artistProfileDTO.getArtist_id());
         if(artist==null) {
@@ -40,7 +41,7 @@ public class ArtistProfileService {
             throw new ApiException("Artist not found");
         }
         artistProfile.setBio(artistProfileDTO.getBio());
-//        artistProfile.setUpdatedAt(LocalDateTime.now());
+        artistProfile.setUpdatedAt(LocalDateTime.now());
         artistProfileRepository.save(artistProfile);
 
     }

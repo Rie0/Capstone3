@@ -49,6 +49,4 @@ public class Bill {
     @MapsId
     @JsonIgnore
     private ArtOrder artOrder;
-
-    //add shop to the equation?
 }

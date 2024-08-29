@@ -56,7 +56,7 @@ public class ExhibitionTicketController {
         return exhibitionTicketService.getTicketsByAmount(amount);
     }
     //extra
-    @GetMapping("/etTicketsByExhibition/{exhibitionId}")
+    @GetMapping("/getTicketsByExhibition/{exhibitionId}")
     public List<ExhibitionTicket> getTicketsByExhibition(@PathVariable Integer exhibitionId) {
         return exhibitionTicketService.getTicketsByExhibition(exhibitionId);
     }

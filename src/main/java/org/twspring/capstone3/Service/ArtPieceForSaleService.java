@@ -20,6 +20,7 @@ public class ArtPieceForSaleService {
         return artPieceForSaleRepository.findAll();
     }
 
+    //EP
     public void addArtPieceForSale(ArtPieceForSale artPieceForSale, Integer shopId){
         Shop shop = shopRepository.findShopById(shopId);
         if(shop == null){
@@ -51,6 +52,7 @@ public class ArtPieceForSaleService {
     }
 
 
+    //EP
     public void addMultipleArtPieces(Integer shopId, List<Integer> artPieceIds){
         Shop shop = shopRepository.findShopById(shopId);
         if(shop == null){

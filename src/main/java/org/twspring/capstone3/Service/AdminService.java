@@ -6,6 +6,7 @@ import org.twspring.capstone3.Model.Admin;
 import org.twspring.capstone3.Repository.AdminRepository;
 import org.twspring.capstone3.Api.ApiException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class AdminService {
         existingAdmin.setUsername(admin.getUsername());
         existingAdmin.setPassword(admin.getPassword());
         existingAdmin.setEmail(admin.getEmail());
-//        existingAdmin.setUpdatedAt(admin.getUpdatedAt());
+        existingAdmin.setUpdatedAt(LocalDateTime.now());
         adminRepository.save(existingAdmin);
     }
 

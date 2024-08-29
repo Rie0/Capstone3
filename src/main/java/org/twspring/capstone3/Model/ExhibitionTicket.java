@@ -41,7 +41,7 @@ public class ExhibitionTicket {
 
     @NotNull(message = "Amount cannot be empty")
     @Column(columnDefinition = "DOUBLE not null")
-    @PositiveOrZero()
+    @PositiveOrZero(message = "Amount cannot be a negative number")
     private Double amount;
 
     @CreationTimestamp
@@ -56,17 +56,5 @@ public class ExhibitionTicket {
     @UpdateTimestamp
     @Column(columnDefinition = "timestamp not null default current_timestamp on update current_timestamp")
     private LocalDateTime updatedAt;
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
