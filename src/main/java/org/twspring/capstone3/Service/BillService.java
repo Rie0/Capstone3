@@ -17,24 +17,4 @@ public class BillService {
     public List<Bill> getAllBills(){
         return billRepository.findAll();
     }
-
-
-//    public void addBill(Bill bill){
-//        billRepository.save(bill);
-//    }
-//
-//    public void updateBill(Integer id, Bill updateBill){
-//        Bill bill = billRepository.findBillById(id)
-//                .orElseThrow(() -> new ApiException("BILL NOT FOUND"));
-//
-//        bill.setAmount(updateBill.getAmount());
-//        billRepository.save(bill);
-//    }
-//
-//    public void deleteBill(Integer id){
-//        Bill bill = billRepository.findBillById(id)
-//                .orElseThrow(() -> new ApiException("BILL NOT FOUND"));
-//
-//        billRepository.delete(bill);
-//    }
 }

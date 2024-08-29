@@ -42,6 +42,7 @@ public class Bill {
 
     // RELATIONSHIPS
     @ManyToOne
+    @JsonIgnore
     private ArtEnthusiast artEnthusiast;
 
     @OneToOne

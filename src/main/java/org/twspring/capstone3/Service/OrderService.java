@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.twspring.capstone3.Api.ApiException;
 import org.twspring.capstone3.Model.*;
-import org.twspring.capstone3.Repository.ArtEnthusiastRepository;
-import org.twspring.capstone3.Repository.ArtPieceForSaleRepository;
-import org.twspring.capstone3.Repository.DeliveryCompanyRepository;
-import org.twspring.capstone3.Repository.OrderRepository;
+import org.twspring.capstone3.Repository.*;
 
 import java.util.List;
 
@@ -19,9 +16,27 @@ public class OrderService {
     private final ArtEnthusiastRepository artEnthusiastRepository;
     private final ArtPieceForSaleRepository artPieceForSaleRepository;
     private final DeliveryCompanyRepository deliveryCompanyRepository;
+    private final ShopRepository shopRepository;
+    private final BillRepository billRepository;
 
     public List<ArtOrder> getAllOrders() { //for shop/for user
         return orderRepository.findAll();
+    }
+
+
+    public void addOrderToShop(Integer artEnthusiastId, Integer shopId){
+      ArtEnthusiast artEnthusiast = artEnthusiastRepository.getArtEnthusiastById(artEnthusiastId);
+      if( artEnthusiast == null ){
+          throw new ApiException("Art Enthusiast not found");
+      }
+      Shop shop = shopRepository.findShopById(shopId);
+      if( shop == null ){
+          throw new ApiException("Shop not found");
+      }
+        ArtOrder artOrder = new ArtOrder();
+        artOrder.setArtEnthusiast(artEnthusiast);
+        artOrder.setShop(shop);
+        orderRepository.save(artOrder);
     }
 
     //EXTRA56
@@ -40,14 +55,21 @@ public class OrderService {
         if(artPieceForSale==null){
             throw new ApiException("Art piece for Sale with ID "+artOrderId+" does not exist");
         }
-        if (!artPieceForSale.isSold()){
+        if (artPieceForSale.isSold()){
             throw new ApiException("Art piece already sold");
         }
+
+        for (ArtPieceForSale ap: artOrder.getArtPieceForSale()){
+            if (ap.getId()==artPieceForSale.getId()){
+                    throw new ApiException("Art piece already in the order");
+            }
+        }
+
         if(artOrder.getStatus()!=ArtOrder.Status.ACTIVE){
             throw new ApiException("Art order status is not active, create a new order");
         }
         artOrder.setTotalPrice(artOrder.getTotalPrice()+artPieceForSale.getPrice());
-        artOrder.getArtPieceForSale().add(artPieceForSale);
+        artPieceForSale.setArtOrder(artOrder);
         orderRepository.save(artOrder);
     }
 
@@ -69,8 +91,12 @@ public class OrderService {
         if(artOrder.getStatus()!=ArtOrder.Status.ACTIVE){
             throw new ApiException("Art order status is not active, create a new order");
         }
+        if(!artOrder.getArtPieceForSale().contains(artPieceForSale)){
+            throw new ApiException("This Art piece is not in the order");
+        }
         artOrder.setTotalPrice(artOrder.getTotalPrice()-artPieceForSale.getPrice());
-        artOrder.getArtPieceForSale().remove(artPieceForSale);
+        //artOrder.getArtPieceForSale().remove(artPieceForSale);
+        artPieceForSale.setArtOrder(null);
         orderRepository.save(artOrder);
     }
 
@@ -96,17 +122,18 @@ public class OrderService {
         if(artOrder==null){
             throw new ApiException("Art order with ID "+artOrderId+" does not exist");
         }
-
         ArtEnthusiast artEnthusiast = artEnthusiastRepository.getArtEnthusiastById(artEnthusiastId);
         if(artEnthusiast==null){
             throw new ApiException("Art enthusiast with ID "+artOrderId+" does not exist");
         }
-
         if(artOrder.getStatus()!=ArtOrder.Status.ACTIVE){
             throw new ApiException("Art order status is not active, create a new order");
         }
         if(artOrder.getDeliveryCompany()==null){
             throw new ApiException("You must pick a delivery company first");
+        }
+        if(artOrder.getArtPieceForSale().isEmpty()){
+            throw new ApiException("Your order is empty");
         }
         //change status and create new order
         artOrder.setStatus(ArtOrder.Status.SHIPPED);
@@ -122,8 +149,9 @@ public class OrderService {
         Bill bill = new Bill();
         bill.setProductsAmount(artOrder.getTotalPrice());
         bill.setShippingFee(artOrder.getDeliveryCompany().getDeliveryFee());
-        artEnthusiast.getBills().add(bill);
-        artOrder.setBill(bill);
+        bill.setArtOrder(artOrder);
+        bill.setArtEnthusiast(artEnthusiast);
+        billRepository.save(bill);
     }
 
 

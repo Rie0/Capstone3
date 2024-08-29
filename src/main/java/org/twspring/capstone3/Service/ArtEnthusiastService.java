@@ -29,10 +29,6 @@ public class ArtEnthusiastService {
 
     public void addArtEnthusiast(ArtEnthusiast artEnthusiast) {
         artEnthusiastRepository.save(artEnthusiast);
-        //Automatically create an artOrder
-        ArtOrder artOrder = new ArtOrder();
-        artOrder.setArtEnthusiast(artEnthusiast);
-        orderRepository.save(artOrder);
 
     }
 

@@ -20,14 +20,20 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
+    @PostMapping("{artEnthusiastId}/add-order-to-shop/{shopId}")
+    public ResponseEntity addOrderToShop(@PathVariable Integer artEnthusiastId,
+                                         @PathVariable Integer shopId) {
+        orderService.addOrderToShop(artEnthusiastId, shopId);
+        return ResponseEntity.ok(new ApiResponse("Successfully added order to shop"));
+    }
 
-    @PostMapping("{artEnthusiastId}/add-piece/{artPieceForSaleId}/to/{artOrderId}")
+    @PutMapping("{artEnthusiastId}/add-piece/{artPieceForSaleId}/to/{artOrderId}")
     public ResponseEntity addArtPieceToOrder(@PathVariable Integer artEnthusiastId, @PathVariable Integer artOrderId, @PathVariable Integer artPieceForSaleId) {
         orderService.addArtPieceToOrder(artEnthusiastId, artOrderId, artPieceForSaleId);
         return ResponseEntity.ok(new ApiResponse("Art piece added to order successfully"));
     }
 
-    @DeleteMapping("{artEnthusiastId}/remove-piece/{artPieceForSaleId}/from/{artOrderId}")
+    @PutMapping("{artEnthusiastId}/remove-piece/{artPieceForSaleId}/from/{artOrderId}")
     public ResponseEntity removeFromOrder(@PathVariable Integer artEnthusiastId, @PathVariable Integer artOrderId, @PathVariable Integer artPieceForSaleId) {
         orderService.removeFromOrder(artEnthusiastId, artOrderId, artPieceForSaleId);
         return ResponseEntity.ok(new ApiResponse("Art piece removed from order successfully"));

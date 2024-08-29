@@ -9,33 +9,15 @@ import org.twspring.capstone3.Model.Bill;
 import org.twspring.capstone3.Service.BillService;
 
 @RestController
-@RequestMapping("/api/v1/bills")
+@RequestMapping("/api/v1/bill")
 @RequiredArgsConstructor
 public class BillController {
 
     private final BillService billService;
 
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity getAllBills(){
         return ResponseEntity.ok(billService.getAllBills());
     }
-
-//    @PostMapping
-//    public ResponseEntity addBill(@Valid @RequestBody Bill bill){
-//        billService.addBill(bill);
-//        return ResponseEntity.ok(new ApiResponse("Bill added successfully"));
-//    }
-//
-//    @PutMapping
-//    public ResponseEntity updateBill(@RequestParam Integer id, @Valid @RequestBody Bill bill){
-//        billService.updateBill(id, bill);
-//        return ResponseEntity.ok(new ApiResponse("Bill updated successfully"));
-//    }
-//
-//    @DeleteMapping
-//    public ResponseEntity deleteBill(@RequestParam Integer id){
-//        billService.deleteBill(id);
-//        return ResponseEntity.ok(new ApiResponse("Bill deleted successfully"));
-//    }
 }
 
