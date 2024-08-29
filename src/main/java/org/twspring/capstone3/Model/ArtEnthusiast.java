@@ -1,5 +1,6 @@
 package org.twspring.capstone3.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -54,7 +55,7 @@ public class ArtEnthusiast {
     private Set<ExhibitionTicket> exhibitionTickets;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "artEnthusiast")
-    private Set<OrderArt> orderArts;
+    private Set<ArtOrder> artOrders;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "artEnthusiast")
     private Set<Bill> bills;
@@ -71,5 +72,7 @@ public class ArtEnthusiast {
     )
     private Set<ArtWork> likedArtWorks = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artEnthusiast")
+    private Set<Comment> comments;
 }
 

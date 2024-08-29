@@ -5,8 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.twspring.capstone3.Api.ApiResponse;
 import org.twspring.capstone3.Model.ExhibitionTicket;
 import org.twspring.capstone3.Service.ExhibitionTicketService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,10 +22,11 @@ public class ExhibitionTicketController {
     public ResponseEntity getAllExhibitionTickets() {
         return ResponseEntity.status(200).body(exhibitionTicketService.getAllExhibitionTickets());
     }
-    @PostMapping("/add")
-    public ResponseEntity issueExhibitionTicket(@PathVariable Integer artEnthusiast_id, @PathVariable Integer exhibition_id, @Valid @RequestBody ExhibitionTicket exhibitionTicket) {
-        exhibitionTicketService.issueExhibitionTicket(artEnthusiast_id,exhibition_id ,exhibitionTicket);
-        return ResponseEntity.status(200).body("Successfully added exhibition ticket");
+    //extra
+    @PostMapping("/add/{artEnthusiast_id}/{exhibition_id}")
+    public ResponseEntity issueExhibitionTicket(@PathVariable Integer artEnthusiast_id, @PathVariable Integer exhibition_id) {
+        exhibitionTicketService.issueExhibitionTicket(artEnthusiast_id,exhibition_id);
+        return ResponseEntity.status(200).body("Successfully bought exhibition ticket");
     }
     @PutMapping("/update/{id}")
     public ResponseEntity updateExhibitionTicket(@PathVariable Integer id,@Valid @RequestBody ExhibitionTicket exhibitionTicket) {
@@ -34,4 +38,19 @@ public class ExhibitionTicketController {
         exhibitionTicketService.deleteExhibitionTicket(id);
         return ResponseEntity.status(200).body("Successfully deleted exhibition ticket");
     }
+    //extra
+    @PutMapping("/cancel-ticket/{ticketId}/{enthusiastId}")
+    public ResponseEntity cancelTicket(@PathVariable Integer ticketId, @PathVariable Integer enthusiastId) {
+        exhibitionTicketService.cancelTicket(ticketId, enthusiastId);
+        return ResponseEntity.status(200).body(new ApiResponse("Ticket cancelled successfully"));
+    }
+    //extra
+    @GetMapping("/byArtEnthusiast/{artEnthusiastId}")
+    public List<ExhibitionTicket> getTicketsByArtEnthusiast(@PathVariable Integer artEnthusiastId) {
+        return exhibitionTicketService.getTicketsByArtEnthusiast(artEnthusiastId);
+    }
+
+
+
+
 }

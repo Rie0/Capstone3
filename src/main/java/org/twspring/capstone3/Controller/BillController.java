@@ -20,22 +20,22 @@ public class BillController {
         return ResponseEntity.ok(billService.getAllBills());
     }
 
-    @PostMapping
-    public ResponseEntity addBill(@Valid @RequestBody Bill bill){
-        billService.addBill(bill);
-        return ResponseEntity.ok(new ApiResponse("Bill added successfully"));
-    }
-
-    @PutMapping
-    public ResponseEntity updateBill(@RequestParam Integer id, @Valid @RequestBody Bill bill){
-        billService.updateBill(id, bill);
-        return ResponseEntity.ok(new ApiResponse("Bill updated successfully"));
-    }
-
-    @DeleteMapping
-    public ResponseEntity deleteBill(@RequestParam Integer id){
-        billService.deleteBill(id);
-        return ResponseEntity.ok(new ApiResponse("Bill deleted successfully"));
-    }
+//    @PostMapping
+//    public ResponseEntity addBill(@Valid @RequestBody Bill bill){
+//        billService.addBill(bill);
+//        return ResponseEntity.ok(new ApiResponse("Bill added successfully"));
+//    }
+//
+//    @PutMapping
+//    public ResponseEntity updateBill(@RequestParam Integer id, @Valid @RequestBody Bill bill){
+//        billService.updateBill(id, bill);
+//        return ResponseEntity.ok(new ApiResponse("Bill updated successfully"));
+//    }
+//
+//    @DeleteMapping
+//    public ResponseEntity deleteBill(@RequestParam Integer id){
+//        billService.deleteBill(id);
+//        return ResponseEntity.ok(new ApiResponse("Bill deleted successfully"));
+//    }
 }
 

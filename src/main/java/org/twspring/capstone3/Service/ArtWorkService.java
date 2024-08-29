@@ -108,4 +108,8 @@ public class ArtWorkService {
         return artWorkRepository.findByArtist(artist);
     }
 
+    public List<ArtWork> searchArtWorks(String keyword) {
+        return artWorkRepository.searchArtWorksByKeyword(keyword);
+    }
+
 }

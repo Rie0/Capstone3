@@ -26,23 +26,11 @@ public class CommissionRequest extends Product{
 
     @NotNull(message = "price cannot be null")
     @Column(columnDefinition = "int not null")
-    private Integer Price;
+    private Integer price;
 
     @NotEmpty(message = "description cannot be empty")
     @Column(columnDefinition = "varchar(200) not null")
     private String description;
-
-    @CreationTimestamp
-    @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp")
-    private LocalDateTime updatedAt;
-
-    @ManyToOne
-    @JsonIgnore
-    private ArtEnthusiast artEnthusiast;
 
     //status PENDING/ACCEPTED/REJECTED
     @Enumerated(EnumType.STRING)
@@ -56,14 +44,8 @@ public class CommissionRequest extends Product{
         CANCELED//add end point to reject
     }
 
+    @ManyToOne
+    @JsonIgnore
+    private ArtEnthusiast artEnthusiast;
 
-
-//    @ManyToOne
-//    @JsonIgnore
-//    private Shop shop;
-//
-//
-//    @ManyToOne
-//    @JsonIgnore
-//    private Artist artist;
 }

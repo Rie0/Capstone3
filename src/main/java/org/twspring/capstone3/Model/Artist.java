@@ -1,6 +1,7 @@
 package org.twspring.capstone3.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -63,5 +64,9 @@ public class Artist {
 
     @OneToOne(mappedBy = "artist", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @JsonIgnore
     private Shop shop;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="artist")
+    private Set<Exhibition> exhibitions;
 }

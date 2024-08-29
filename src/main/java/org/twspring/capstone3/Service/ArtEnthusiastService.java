@@ -3,11 +3,17 @@ package org.twspring.capstone3.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.twspring.capstone3.Model.ArtEnthusiast;
+import org.twspring.capstone3.Model.ArtOrder;
 import org.twspring.capstone3.Model.Exhibition;
+import org.twspring.capstone3.Model.ExhibitionTicket;
 import org.twspring.capstone3.Repository.ArtEnthusiastRepository;
 import org.twspring.capstone3.Api.ApiException;
 import org.twspring.capstone3.Repository.ExhibitionRepository;
+import org.twspring.capstone3.Repository.ExhibitionTicketRepository;
+import org.twspring.capstone3.Repository.OrderRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -15,13 +21,19 @@ import java.util.List;
 public class ArtEnthusiastService {
     private final ArtEnthusiastRepository artEnthusiastRepository;
     private final ExhibitionRepository exhibitionRepository;
-
+    private final ExhibitionTicketRepository exhibitionTicketRepository;
+    private final OrderRepository orderRepository;
     public List<ArtEnthusiast> getAllArtEnthusiasts() {
         return artEnthusiastRepository.findAll();
     }
 
     public void addArtEnthusiast(ArtEnthusiast artEnthusiast) {
         artEnthusiastRepository.save(artEnthusiast);
+        //Automatically create an artOrder
+        ArtOrder artOrder = new ArtOrder();
+        artOrder.setArtEnthusiast(artEnthusiast);
+        orderRepository.save(artOrder);
+
     }
 
     public void updateArtEnthusiast(Integer id, ArtEnthusiast artEnthusiast) {
@@ -31,7 +43,7 @@ public class ArtEnthusiastService {
         existingArtEnthusiast.setUsername(artEnthusiast.getUsername());
         existingArtEnthusiast.setPassword(artEnthusiast.getPassword());
         existingArtEnthusiast.setEmail(artEnthusiast.getEmail());
-//        existingArtEnthusiast.setUpdatedAt(artEnthusiast.getUpdatedAt());
+        existingArtEnthusiast.setUpdatedAt(LocalDateTime.now());
         artEnthusiastRepository.save(existingArtEnthusiast);
     }
 
@@ -42,16 +54,5 @@ public class ArtEnthusiastService {
         artEnthusiastRepository.delete(existingArtEnthusiast);
     }
 
-    public void artEnthusiastBuyTicket(Integer artEnthusiast_id, Integer exhibition_id){
-        ArtEnthusiast artEnthusiast = artEnthusiastRepository.getArtEnthusiastById(artEnthusiast_id);
-        Exhibition exhibition = exhibitionRepository.findExhibitionById(exhibition_id);
-        if(artEnthusiast == null){
-            throw new ApiException("Art enthusiast with id " + artEnthusiast_id + " not found");
-        }if(exhibition == null){
-            throw new ApiException("Exhibition with id " + exhibition_id + " not found");
-        }
-        //if(exhibition.){}
-        artEnthusiastRepository.save(artEnthusiast);
-        exhibitionRepository.save(exhibition);
-    }
 }
+

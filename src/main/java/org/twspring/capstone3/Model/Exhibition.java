@@ -43,10 +43,6 @@ public class Exhibition {
     @Size(min=20,max = 120, message = "location must have between 20 to 150 characters")
     private String location;
 
-    @Column(columnDefinition = "INT NOT NULL")
-    @NotNull(message = "price cannot be null")
-    @Positive(message = "message cannot be a zero or a negative number")
-    private double pricePerDay;
 
     @Column(columnDefinition = "BOOLEAN NOT NULL")
     @NotNull(message = "is available cannot be null")
@@ -54,7 +50,7 @@ public class Exhibition {
 
     @Column(columnDefinition = "BOOLEAN NOT NULL")
     @NotNull(message = "is available cannot be null")
-    private boolean isOpen; //AE can buy tickets //(change the name to can buy 
+    private boolean isOpen; //AE can buy tickets //(change the name to can buy ticket)
 
     @Column(columnDefinition = "INT NOT NULL")
     @NotNull(message = "capacity cannot be null")
@@ -66,16 +62,20 @@ public class Exhibition {
     @PositiveOrZero(message = "capacity cannot be a negative number")
     private Integer currentCapacity = 0;
 
-    @NotNull(message = "Start date cannot be null")
+    @Column(columnDefinition = "DOUBLE NOT NULL")
+    @NotNull(message = "capacity cannot be null")
+    @PositiveOrZero(message = "capacity cannot be a negative number")
+    private double ticketPrice = 0; //change when renting, reset after
+
+    //@NotNull(message = "Start date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL")
+    @Column(columnDefinition = "DATE")
     private LocalDate startDate;
 
-    @NotNull(message = "End date cannot be null")
+    //@NotNull(message = "End date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(columnDefinition = "DATE NOT NULL")
+    @Column(columnDefinition = "DATE")
     private LocalDate endDate;
-
 
     @CreationTimestamp
     @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
@@ -92,5 +92,9 @@ public class Exhibition {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "exhibition")
     private Set<ExhibitionTicket> exhibitionTickets;
+
+    @ManyToOne
+    @JsonIgnore
+    private Artist artist;
 
 }

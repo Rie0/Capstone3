@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class ExhibitionTicket {
 
     @NotNull(message = "Amount cannot be empty")
     @Column(columnDefinition = "DOUBLE not null")
+    @PositiveOrZero()
     private Double amount;
 
     @CreationTimestamp

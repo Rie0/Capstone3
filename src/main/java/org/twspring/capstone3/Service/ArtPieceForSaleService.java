@@ -19,7 +19,7 @@ public class ArtPieceForSaleService {
     public List<ArtPieceForSale> getAllArtPieceForSale(){
         return artPieceForSaleRepository.findAll();
     }
-//EP
+
     public void addArtPieceForSale(ArtPieceForSale artPieceForSale, Integer shopId){
         Shop shop = shopRepository.findShopById(shopId);
         if(shop == null){
@@ -48,5 +48,22 @@ public class ArtPieceForSaleService {
             throw new ApiException("Art Piece For Sale not found");
         }
         artPieceForSaleRepository.delete(a);
+    }
+
+
+    public void addMultipleArtPieces(Integer shopId, List<Integer> artPieceIds){
+        Shop shop = shopRepository.findShopById(shopId);
+        if(shop == null){
+            throw new ApiException("SHOP DOES NOT EXIST");
+        }
+
+        List<ArtPieceForSale> artPieces = artPieceForSaleRepository.findAllByIds(artPieceIds);
+        for(ArtPieceForSale artPiece : artPieces){
+            if(artPiece == null){
+                throw new ApiException("ART PIECE DOES NOT EXIST: " + artPiece.getId());
+            }
+            artPiece.setShop(shop);
+        }
+        artPieceForSaleRepository.saveAll(artPieces);
     }
 }

@@ -26,23 +26,28 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "Amount must be not null")
-    @PositiveOrZero
-    private double amount;
+    @NotNull(message = "Products amount must be not null")
+    @Column(columnDefinition = "DOUBLE NOT NULL")
+    @PositiveOrZero(message = "Products amount cannot be a negative or a zero")
+    private double productsAmount;
+
+    @NotNull(message = "Shipping fee must be not null")
+    @Column(columnDefinition = "DOUBLE NOT NULL")
+    @PositiveOrZero(message = "Shipping Fee cannot be a negative or a zero")
+    private double shippingFee;
 
     @CreationTimestamp
     @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
-    private LocalDateTime createdAt;
+    private LocalDateTime issuedAt;
 
-    @UpdateTimestamp
-    @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp")
-    private LocalDateTime updatedAt;
-
-    // ArtEnthusiast_Id
+    // RELATIONSHIPS
     @ManyToOne
-    @JoinColumn(name = "art_enthusiast_id")
     private ArtEnthusiast artEnthusiast;
 
-    //adds shop or artist???
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private ArtOrder artOrder;
 
+    //add shop to the equation?
 }

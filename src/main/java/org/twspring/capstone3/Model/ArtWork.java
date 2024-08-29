@@ -36,9 +36,9 @@ public class ArtWork {
     @Column(columnDefinition = "varchar(200) not null")
     private  String imageUrl ;
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('BID', 'NORMAL')")
-    private SellType sellType;
+//    @Enumerated(EnumType.STRING)
+//    @Column(columnDefinition = "enum('BID', 'NORMAL')")
+//    private SellType sellType;
 
     @CreationTimestamp
     @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
@@ -57,7 +57,7 @@ public class ArtWork {
     @Column(columnDefinition = "INT DEFAULT 0")
     private int likeCount = 0;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "artwork_likes",
             joinColumns = @JoinColumn(name = "artwork_id"),
@@ -75,4 +75,6 @@ public class ArtWork {
         BID,
         NORMAL
     }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artWork")
+    private Set<Comment> comments;
 }

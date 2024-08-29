@@ -43,19 +43,29 @@ public class Shop {
     private LocalDateTime createdAt;
 
 
-    //relationships
+    //RELATIONSHIPS
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
     private Set<Product> products;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
-    private Set<CommissionRequest> commissionRequests;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
+//    private Set<CommissionRequest> commissionRequests;
+
+//    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+//    private Set<ArtPieceForSale> artPieceForSales;
 
     @OneToOne
     @MapsId
     @JsonIgnore
     private Artist artist;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-    private Set<ArtPieceForSale> artPieceForSales;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
+    private Set<ArtOrder> artOrders;
+
+    public Shop(Integer id, boolean isCommissionOpen, double minimalCommissionPrice, Artist artist) {
+        this.id = id;
+        this.isCommissionOpen = isCommissionOpen;
+        this.minimalCommissionPrice = minimalCommissionPrice;
+        this.artist = artist;
+    }
 }

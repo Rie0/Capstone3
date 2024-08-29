@@ -44,5 +44,6 @@ public class ArtPieceForSale extends Product{
 
     @ManyToOne
     @JsonIgnore
-    private Shop shop;
+    private ArtOrder artOrder;
+    
 }

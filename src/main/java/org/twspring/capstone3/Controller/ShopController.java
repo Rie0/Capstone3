@@ -6,8 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.twspring.capstone3.Api.ApiResponse;
+import org.twspring.capstone3.DTO.ArtistShopDTO;
 import org.twspring.capstone3.Model.Shop;
 import org.twspring.capstone3.Service.ShopService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/shop")
@@ -20,11 +23,10 @@ public class ShopController {
         return ResponseEntity.ok(shopService.getAllShop());
     }
 
-//    + EndPoint
-    @PostMapping("/add/{artistId}")
-    public ResponseEntity addShop(@PathVariable Integer artistId,
-                                  @Valid @RequestBody Shop shop){
-        shopService.addShop(shop, artistId);
+//    + EndPoint X
+    @PostMapping("/add")
+    public ResponseEntity addShop(@Valid @RequestBody ArtistShopDTO artistShopDTO){
+        shopService.addShop(artistShopDTO);
         return ResponseEntity.ok(new ApiResponse("Shop added successfully"));
     }
 
@@ -39,18 +41,63 @@ public class ShopController {
         shopService.deleteShop(id);
         return ResponseEntity.ok(new ApiResponse("Shop deleted successfully"));
     }
-//    + EndPonit
+//    + EndPonit X
     @PutMapping("/switch-commission/{id}")
     public ResponseEntity switchIsCommissionOpen(@PathVariable Integer id){
         shopService.switchIsCommissionOpen(id);
         return ResponseEntity.ok(new ApiResponse("Switch isCommissionOpen successfully"));
     }
 
-//    + EndPoint
+//    + EndPoint X
     @PutMapping("/edit-minimal-commission/{id}/{price}")
-    public ResponseEntity minimalCommissionPrice(@PathVariable Integer id,
-                                                 @PathVariable double price){
+    public ResponseEntity minimalCommissionPrice(@PathVariable Integer id, @PathVariable double price){
         shopService.minimalCommissionPrice(id, price);
         return ResponseEntity.ok(new ApiResponse("Minimal commission price updated successfully"));
     }
+
+//    + EndPoint
+//    @PutMapping("/reset-salse-status/{shopId}")
+//    public ResponseEntity resetSalesStatus(@PathVariable Integer shopId){
+//        shopService.resetSalesStatus(shopId);
+//        return ResponseEntity.ok(new ApiResponse("Reset sales status successfully"));
+//    }
+
+
+
+//    + EndPoint X
+    @GetMapping("/shops-with-open-commissions")
+    public ResponseEntity getShopsWithOpenCommissions(){
+        return ResponseEntity.ok(shopService.getShopsWithOpenCommissions());
+    }
+
+//    + EndPoint X
+    @PutMapping("/apply-discount/{shopId}/{discount}")
+    public ResponseEntity applyDiscountToAllArtPieces(@PathVariable Integer shopId, @PathVariable double discount){
+        shopService.applyDiscountToAllArtPieces(shopId, discount);
+        return ResponseEntity.ok(new ApiResponse("Apply discount successfully"));
+    }
+
+//    + EndPoint X
+    @PutMapping("/change-ownership/{artPieceId}/{newShopId}")
+    public ResponseEntity changeArtPieceOwnership(@PathVariable Integer artPieceId, @PathVariable Integer newShopId){
+        shopService.changeArtPieceOwnership(artPieceId, newShopId);
+        return ResponseEntity.ok(new ApiResponse("Change art piece ownership successfully"));
+    }
+
+//    + EndPoint X
+    @GetMapping("/total-sold/{shopId}")
+    public ResponseEntity totalSold(@PathVariable Integer shopId){
+        return ResponseEntity.ok(shopService.totalSold(shopId));
+    }
+
+//    + EndPoint X
+    @GetMapping("/total-unSold/{shopId}")
+    public ResponseEntity totalUnSold(@PathVariable Integer shopId){
+        return ResponseEntity.ok(shopService.totalUnSold(shopId));
+    }
+
+//    + (counter for sales price)
+//    + (bid)
+//    + (Report on Art Pieces)
+
 }

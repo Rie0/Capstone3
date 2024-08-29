@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.twspring.capstone3.Api.ApiResponse;
 import org.twspring.capstone3.Model.ArtWork;
+import org.twspring.capstone3.Model.Comment;
 import org.twspring.capstone3.Service.ArtWorkService;
+import org.twspring.capstone3.Service.CommentService;
+
 import java.util.List;
 
 
@@ -15,6 +18,8 @@ import java.util.List;
 @RequestMapping("/api/v1/artWork")
 public class ArtWorkController {
     private final ArtWorkService artWorkService;
+    private final CommentService commentService;
+
 
     @GetMapping("/get")
     public ResponseEntity getAllArtWork() {
@@ -64,5 +69,26 @@ public class ArtWorkController {
     public ResponseEntity getArtworksByArtist(@PathVariable Integer artistId) {
         List<ArtWork> artworks = artWorkService.getArtworksByArtist(artistId);
         return ResponseEntity.status(200).body(artworks);
+    }
+    //extra
+    @GetMapping("/search")
+    public ResponseEntity searchArtWorksByKeyword(@RequestParam("keyword") String keyword) {
+        List<ArtWork> artworks = artWorkService.searchArtWorks(keyword);
+        return ResponseEntity.ok(artworks);
+    }
+    //extra
+    @PostMapping("/{artEnthusiastId}/comment/{artWorkId}")
+    public ResponseEntity leaveComment(@PathVariable Integer artWorkId,
+                                       @PathVariable Integer artEnthusiastId,
+                                       @RequestParam String text) {
+        Comment comment = commentService.leaveComment(artWorkId, artEnthusiastId, text);
+        return ResponseEntity.status(200).body(new ApiResponse("comment added"));
+    }
+    //extra
+    @GetMapping("/get/{artWorkId}")
+    public ResponseEntity getAllCommentsByArtWorkId(@PathVariable Integer artWorkId) {
+        List<Comment> comments = commentService.getAllCommentsByArtWorkId(artWorkId);
+        return ResponseEntity.status(200).body(comments);
+
     }
 }

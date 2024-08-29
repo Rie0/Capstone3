@@ -35,7 +35,8 @@ public class Product {
 
 //    Artist_id
     @ManyToOne(cascade = CascadeType.ALL)
-    private Artist artist;
+    @JsonIgnore
+    private Artist artist; //remove?
 
 //    shop_id
     @ManyToOne
